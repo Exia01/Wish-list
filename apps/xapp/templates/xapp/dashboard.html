@@ -1,0 +1,129 @@
+<html>
+<head>
+    <title>Products Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'xapp/css/dashboard.css' %}" />
+    <style>
+        .title{
+            width: 50%
+        }
+        table.table.table-striped {
+            width: 75%;
+        }
+        .btn-block {
+            display: block;
+            width: 25%;
+        }
+        
+        a:hover 
+        {
+             color:rgb(228, 157, 145); 
+             text-decoration:none; 
+             cursor:pointer;  
+        }
+        mores{
+            color:rgb(250, 250, 250); 
+            text-decoration:none; 
+            cursor:pointer;  
+        }
+        .links{
+            color: rgb(75, 129, 199)
+        }
+        .borders{
+            border: .5px, lightgrey;
+        }
+        a {
+            color: rgb(66, 124, 218);
+            text-decoration: none;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <div class="container d-flex justify-content-between">
+            </div>
+        </div>
+    </header>
+
+    <main role="main">
+        <section class="jumbotron">
+            <div class="container">
+                <button type="button" class="btn btn-danger">
+                            <a href="/logout">Logout</a>
+                    </button>
+                <br>
+                <br>
+                <h2 class="jumbotron-heading">Hello, {{request.session.name}}!</h2>
+                <br>
+                <h5 class="jumbotron-heading">Your Wish List </h5>
+                    <table class="table borders table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Added By</th>
+                                    <th>Date Added</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        <tbody>
+                            {% for all in mywishlist %}
+                                <tr>
+                                    <td>
+                                        <a class="links" href="/showproduct/{{all.id}}">{{all.item}}</a>
+                                    </td>
+                                    <td>{{all.poster.name}}</td>
+                                    <td>{{all.created_at}}</td>
+                                    <td>
+                                        <a class="mores" href="/remove/{{all.id}}">Remove from my Wishlist</a>  | {%if all.poster.id == request.session.id%}<a class="mores" href="/delete/{{all.id}}">Delete</a>
+                                        {% endif %}
+                                    </td> 
+                                 </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </div>
+        </section>
+            <div class="album py-5 bg-light">
+                <div class="container">
+                    <h4 class="mb-3">Other User's Wish List</h4>
+                    <table class="table table-striped">
+                        <thead class="bg-success">
+                            <tr>
+                                <th>Item</th>
+                                <th>Added By</th>
+                                <th>Date Added</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for allother in productslist  %}
+                            <tr>
+                                <td>
+                                    <a class="links" href="/showproduct/{{allother.id}}">{{allother.item}}</a>
+                                </td>
+                                <td>{{allother.poster.name}}</td>
+                                <td>{{allother.created_at}}</td>
+                                <td>
+                                    <a class="mores" href="/addtowish/{{allother.id}}">Add to my Wishlist</a>
+                                </td> 
+                             </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="container">
+                    <div class="album py-5 bg-light">
+                        <div class="form-group"> 
+                        <h5 class="mb-3" id='info'>Would you like to add an item to your list?</h5>
+                            <button class="btn btn-secondary btn-md btn-block" type="submit"><a href="/add/{{request.session.id}}">Add Here</a></button>
+                        </form> 
+                        </div>
+                    </div>
+            </div>
+    </main>
+      
+</body>
+</html>
