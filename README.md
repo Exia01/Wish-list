@@ -1,1 +1,1 @@
-# Wish-list
+A standard web app that implements full login and registration validations, full CRUD methods, session, Features allow user(s) to create an Item/Product and add other users products to their respective Wish list.
